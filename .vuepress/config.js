@@ -1,6 +1,6 @@
 module.exports = {
     title: 'Git x Magit 編集会議',
-    description: 'そしてVuePressの練習',
+    description: 'というよりVuePress',
     locales: {
         '/': {
             lang: 'ja'

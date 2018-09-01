@@ -14,6 +14,7 @@ module.exports = {
     ],
     themeConfig: {
         nav: [
+            { text: 'ホーム', link: '/' },
             { text: '作品一覧', link: 'https://jamcha-aa.github.io/About/' },
             { text: 'GitHub', link: 'https://github.com/jamcha-aa/magit-meeting/' }
         ],

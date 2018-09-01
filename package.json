@@ -1,0 +1,23 @@
+{
+  "name": "magit-meeting",
+  "version": "1.0.0",
+  "description": "[小説] Git x Magit 編集会議",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vuepress dev",
+    "build": "vuepress build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamcha-aa/magit-meeting.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jamcha-aa/magit-meeting/issues"
+  },
+  "homepage": "https://github.com/jamcha-aa/magit-meeting#readme"
+}

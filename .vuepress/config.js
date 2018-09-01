@@ -17,7 +17,8 @@ module.exports = {
         ],
         sidebar: {
             '/article/': genSidebarConfig('目次')
-        }
+        },
+        search: false,
     },
     head: [
     ['link', { rel: 'icon', type: 'image/png', href: '/img/favicon.png' }]

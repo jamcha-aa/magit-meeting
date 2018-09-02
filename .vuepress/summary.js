@@ -7,7 +7,8 @@ exports.genSidebarConfig = function (title) {
                 '',
                 '01',
                 '02',
-                '03'
+                '03',
+                '04'
             ]
         }
     ]

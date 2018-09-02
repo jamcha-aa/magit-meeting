@@ -1,0 +1,158 @@
+#+OPTIONS: toc:nil
+#+OPTIONS: -:nil
+#+OPTIONS: ^:{}
+ 
+* 「くだん」の正体
+
+  「今まで隠すつもりもなかったんだけど， [[https://vuepress.vuejs.org/][VuePress]] は Vue.js を使ったサイト制作ツールです」「どうして今まで言わなかった？」「君が知りたがってたから」「…私が知りたがると教えてくれないのか」「うん」「ひどいやつだな」「参考にしたページはこの 2 つ。なお Node.js のバージョンは v10.8，VuePress のバージョンは 0.14.2 になります」
+
+  - [[https://vuepress.vuejs.org/guide/][VuePress Guide]]
+  - [[https://qiita.com/rubytomato@github/items/f8153f0d00f89ba87ed5][VuePress で作成した静的サイトを GitHub Pages で公開する]]
+
+** ファイル構成
+
+   #+BEGIN_SRC 
+   $ tree -L 4 -a -I ".git|node_modules|dist|docs"
+   #+END_SRC
+
+   「 ~tree~ コマンドでファイルの一覧表を作ってくれます。便利」「今まで知らなかったのか？」「…」「今までどうやってたんだ？」「…」「まさか手動…」「…これ以上私を辱めるならやめる」「すまん」「だから君に教えたくないんだよ」「ほめればいいんだな。すごい!よく自力で調べたな。偉いぞ」「ふっふっふ。でしょう？」「…」
+
+   #+BEGIN_SRC 
+   .
+   ├── .gitignore
+   ├── .nojekyll
+   ├── .vuepress
+   │   ├── config.js
+   │   ├── override.styl
+   │   ├── public
+   │   │   ├── hero.png
+   │   │   └── img
+   │   │       └── favicon.png
+   │   ├── style.styl
+   │   └── summary.js
+   ├── README.md
+   ├── article
+   │   ├── 01.md
+   │   ├── 01.org
+   │   ├── 02.md
+   │   ├── 02.org
+   │   ├── 03.md
+   │   ├── 03.org
+   │   ├── 04.md
+   │   ├── 04.org
+   │   ├── README.md
+   │   ├── README.org
+   │   └── img
+   │       └── favicon.png
+   └── package.json
+   #+END_SRC
+
+   「README がトップページになるとか，markdown を勝手にビルドしてくれるとか基本的には [[https://github.com/GitbookIO/gitbook][GitBook]] と同じなんだけど，ちょっと違う」「たとえば？」「 [[https://vuepress.vuejs.org/guide/#gitbook][画面の上にあるメニューとか見た目の設定]] を GitBook よりも自由に変えられる。それを担当してるのが ~.vuepress~ なので，今回は ~.vuepress~ に入ってるファイルを主に説明します」「おう」「でもその前に README.md だけ」
+
+** README.md
+
+   「README.md は 2 つあるが，どっちの README.md だ？」「article の上にあるやつ。リポジトリのルートにあるやつって言えばいいのかな？それを開くと最初に何か書いてある」
+
+   #+BEGIN_SRC 
+   ---
+   home: true
+   heroImage: /hero.png
+   actionText: 読む
+   actionLink: /article/
+   ---
+   #+END_SRC
+
+   <br>
+
+   「 一旦 [[https://jamcha-aa.github.io/magit-meeting/article/][トップページ]] を見てほしいんだけど」
+
+   <br>
+
+   ![[./img/SS.png][top]]
+
+   「 ~heroImage~ を指定するとトップページに画像を表示してくれる。その下の『読む』ボタンとリンク先を ~actionText~ と ~actionLink~ で指定する。なんかかっこいい」「それ以外は README.md の本文なのか？」「そう。あ，上のメニューとタイトル名は別。次に説明します」
+
+** .vuepress/config.js
+
+   「これが設定ファイル。名前のとおり javascript です」「ああ」「自力で作ります」「…大変だな」「詳しい説明は [[https://vuepress.vuejs.org/config/][公式]] にゆずるとして，私がひっかかったところだけ取り上げます」
+
+   #+BEGIN_EXPORT html
+   ```js
+   const summary = require('./summary.js');
+
+   module.exports = {
+       title: 'Git x Magit 編集会議',
+       description: 'というより VuePress',
+       locales: {
+           '/': {
+               lang: 'ja'
+           }
+       },
+       meta: [
+           { charset: 'utf-8' },
+           { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+       ],
+       themeConfig: {
+           nav: [
+               { text: 'ホーム', link: '/' },
+               { text: '作品一覧', link: 'https://jamcha-aa.github.io/About/' },
+               { text: 'GitHub', link: 'https://github.com/jamcha-aa/magit-meeting/' }
+           ],
+           sidebar: {
+               '/article/': summary.genSidebarConfig('目次')
+           },
+           search: false,
+       },
+       head: [
+       ['link', { rel: 'icon', type: 'image/png', href: '/img/favicon.png' }]
+       ],
+       base: '/magit-meeting/',
+       dest: 'docs'
+   }
+   ```
+   #+END_EXPORT
+
+   「ハイライトついてるだけでかっこいい」「どうだ。私が以前アドバイスした甲斐があっただろう」「どうせなら 君に Feature Request じゃなくて Pull Request してほしいんだけど」「おい，身内用語はやめろ」「ええー」「『ルー大柴じゃねえか』って言われてもいいのか？」「…今週の第一位，EeePC フィーチャリング ThinkPad で，『君にプルリクエスト』です。どうぞ」
+
+*** sidebar
+
+    #+BEGIN_EXPORT html
+    ```js
+    sidebar: {
+        '/article/': summary.genSidebarConfig('目次')
+    },
+    ```
+    #+END_EXPORT
+
+    「本当はここに目次をずらぁーって書かなきゃいけないんだけど，わかりにくくなるので ~summary.js~ という別ファイルにしました。その中身はこんな感じ」
+
+    #+BEGIN_EXPORT html
+    ```js
+    exports.genSidebarConfig = function (title) {
+        return [
+            {
+                title,
+                collapsable: false,
+                children: [
+                    '',
+                    '01',
+                    '02',
+                    '03',
+                    '04'
+                ]
+            }
+        ]
+    }
+    ```
+    #+END_EXPORT
+
+    「番号の振られていない ~''~ は何だ？」「番号を振らないと article 内の README.md が指定される。今後 VuePress の使い方を忘れたときのためにわざと残してあります」
+
+
+   <br>
+   <br>
+
+   (c) 2018 jamcha (jamcha.aa@gmail.com).
+
+   ![[https://i.creativecommons.org/l/by-sa/4.0/88x31.png][cc by-sa]]
+

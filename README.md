@@ -10,6 +10,8 @@ actionLink: /article/
 
 スマホの場合は画面左上の「≡」で目次の表示/非表示ができます。
 
+VuePress の設定方法だけ知りたい方は [「くだん」の正体](https://jamcha-aa.github.io/magit-meeting/article/04.html) をご覧ください。
+
 <br>
 <br>
 

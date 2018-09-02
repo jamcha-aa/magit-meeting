@@ -1,0 +1,226 @@
+#+OPTIONS: toc:nil
+#+OPTIONS: -:nil
+#+OPTIONS: ^:{}
+ 
+* 「くだん」の正体
+
+  「今まで隠すつもりもなかったんだけど， [[https://vuepress.vuejs.org/][VuePress]] は Vue.js を使ったサイト制作ツールです」「どうして今まで言わなかった？」「君が知りたがってたから」「…私が知りたがると教えてくれないのか」「うん」「ひどいやつだな」「勉強させてもらったページはこの 2 つ。なお Node.js のバージョンは v10.8，VuePress のバージョンは 0.14.2 になります」
+
+  - [[https://vuepress.vuejs.org/guide/][VuePress Guide]]
+  - [[https://qiita.com/rubytomato@github/items/f8153f0d00f89ba87ed5][VuePress で作成した静的サイトを GitHub Pages で公開する]]
+
+** ファイル構成
+
+   #+BEGIN_SRC 
+   $ tree -L 4 -a -I ".git|node_modules|dist|docs"
+   #+END_SRC
+
+   「 ~tree~ コマンドでファイルの一覧表を作ってくれます。便利」「今まで知らなかったのか？」「…」「今までどうやってたんだ？」「…」「まさか手動…」「…これ以上私を辱めるならやめる」「すまん」「だから君に教えたくないんだよ」「ほめればいいんだな。すごい!よく自力で調べたな。偉いぞ」「ふっふっふ。でしょう？」「…」
+
+   #+BEGIN_SRC 
+   .
+   ├── .gitignore
+   ├── .nojekyll
+   ├── .vuepress
+   │   ├── config.js
+   │   ├── override.styl
+   │   ├── public
+   │   │   ├── hero.png
+   │   │   └── img
+   │   │       └── favicon.png
+   │   └── summary.js
+   ├── README.md
+   ├── article
+   │   ├── 01.md
+   │   ├── 01.org
+   │   ├── 02.md
+   │   ├── 02.org
+   │   ├── 03.md
+   │   ├── 03.org
+   │   ├── 04.md
+   │   ├── 04.org
+   │   ├── README.md
+   │   ├── README.org
+   │   └── img
+   │       ├── SS.png
+   │       └── favicon.png
+   └── package.json
+   #+END_SRC
+
+   「私はいくつかファイルを作っちゃったからごちゃごちゃしてるけど， [[https://github.com/GitbookIO/gitbook][GitBook]] を使ったことがあるならわかりやすいソフトウェアだと思う。README がトップページになるとか，markdown を勝手にビルドしてくれるとか，結構似てる」「違うところは？」「 [[https://vuepress.vuejs.org/guide/#gitbook][画面の上にあるメニューとか見た目の設定]] を GitBook よりも自由に変えられる。それを担当してるのが ~.vuepress~ なので，今回は ~.vuepress~ に入ってるファイルを主に説明します」「おう」「でもその前に README.md だけ」
+
+** README.md
+
+   「README.md は 2 つあるが，どっちの README.md だ？」「article の上にあるやつ。リポジトリのルートにあるやつって言えばいいのかな？最初にこんなのが書いてある」
+
+   #+BEGIN_SRC 
+   ---
+   home: true
+   heroImage: /hero.png
+   actionText: 読む
+   actionLink: /article/
+   ---
+   #+END_SRC
+
+   <br>
+
+   「何が書いてあるか理解するために，一旦 [[https://jamcha-aa.github.io/magit-meeting/article/][トップページ]] を見てほしいんだけど」
+
+   <br>
+
+   ![[./img/SS.png][top]]
+
+   「 ~heroImage~ を指定するとトップページに画像を表示してくれる。その下の『読む』ボタンとリンク先を ~actionText~ と ~actionLink~ で指定する。なんかかっこいい」「それ以外は README.md の本文なのか？」「そう。あ，画面上のメニューとタイトル名は別。次に説明します」
+
+** .vuepress/config.js
+
+   「これが設定ファイル。名前のとおり javascript です」「ああ」「自力で作ります」「…大変だな」「詳しい説明は [[https://vuepress.vuejs.org/config/][公式]] にゆずるとして，私がひっかかったところだけ取り上げます」
+
+   #+BEGIN_EXPORT html
+   ```js
+   const summary = require('./summary.js');
+
+   module.exports = {
+       title: 'Git x Magit 編集会議',
+       description: 'というより VuePress',
+       locales: {
+           '/': {
+               lang: 'ja'
+           }
+       },
+       meta: [
+           { charset: 'utf-8' },
+           { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+       ],
+       themeConfig: {
+           nav: [
+               { text: 'ホーム', link: '/' },
+               { text: '作品一覧', link: 'https://jamcha-aa.github.io/About/' },
+               { text: 'GitHub', link: 'https://github.com/jamcha-aa/magit-meeting/' }
+           ],
+           sidebar: {
+               '/article/': summary.genSidebarConfig('目次')
+           },
+           search: false,
+       },
+       head: [
+       ['link', { rel: 'icon', type: 'image/png', href: '/img/favicon.png' }]
+       ],
+       base: '/magit-meeting/',
+       dest: 'docs'
+   }
+   ```
+   #+END_EXPORT
+
+   「ハイライトついてるだけでかっこいい」「どうだ。私が以前アドバイスした甲斐があっただろう」「どうせなら 君に Feature Request じゃなくて Pull Request してほしいんだけど」「おい，身内用語はやめろ」「ええー，だってここ GitHub だよ？」「『ルー大柴じゃねえか』って言われてもいいのか？」「では要望ではなく修正結果を送ってください」「…なんか，よそよそしいな。内容は同じはずなんだが」「ほら。フィーチャーリクエストとプルリクエストでいいんだよ。あなたからのフィーチャーリクエスト，私からのプルリクエスト」「…なんか，気色悪いな。内容は同じはずなんだが…」「…」
+
+*** sidebar = 目次
+
+    #+BEGIN_EXPORT html
+    ```js
+    sidebar: {
+        '/article/': summary.genSidebarConfig('目次')
+    },
+    ```
+    #+END_EXPORT
+
+    「sidebar は GitBook でいう ~SUMMARY.md~ みたいなもの。本当は ~config.js~ に目次をずらぁーって書かなきゃいけないんだけど，わかりにくくなるので ~summary.js~ という別ファイルにしました。その中身はこんな感じ」
+
+    #+BEGIN_EXPORT html
+    ```js
+    exports.genSidebarConfig = function (title) {
+        return [
+            {
+                title,
+                collapsable: false,
+                children: [
+                    '',
+                    '01',
+                    '02',
+                    '03',
+                    '04'
+                ]
+            }
+        ]
+    }
+    ```
+    #+END_EXPORT
+
+    「番号の振られていない ~''~ は何だ？」「番号を振らないと article 内の README.md が指定される。VuePress の使い方を忘れたときのために，このサイトではわざと 1 個目の文書を README.md にしてあります」
+
+    「じゃあトップページの『読む』からのリンクが README である必要はないんだな？」「もちろん。そのときは ~actionLink~ の内容が ~/article/01.html~ とかになるから気をつけて」
+
+*** base = リポジトリ名
+
+    #+BEGIN_EXPORT html
+    ```js
+    base: '/magit-meeting/',
+    ```
+    #+END_EXPORT
+
+    「私は GitHub Pages に公開するから，ここにリポジトリ名を書く」
+
+*** dest = docs
+
+    #+BEGIN_EXPORT html
+    ```js
+    dest: 'docs'
+    ```
+    #+END_EXPORT
+
+    「ビルドしたファイルをどこに出力するか，ここに書く。GitHub Pages なら ~docs~ でオッケー」
+
+** override.styl
+
+   #+BEGIN_EXPORT html
+   ```stylus
+   $accentColor = #b27ee2
+   ```
+   #+END_EXPORT
+
+   「私は ~$accentColor~ しかいじってない，というかいじれないのでこれだけ。なおバージョン 0.12 で書き方の仕様が変わったので，stylus をゴリゴリ書きたい人は [[https://vuepress.vuejs.org/default-theme-config/#migrate-your-styles-to-style-styl][こちら]] を参照してください。
+
+** ビルド & デプロイ
+
+   「おい，そもそもインストール方法を説明していないじゃないか」「 [[https://vuepress.vuejs.org/#as-easy-as-1-2-3][As Easy As 1, 2, 3]] 」
+
+*** vuepress dev
+
+    「 ~vuepress dev~ はブラウザにプレビューしてくれる。 ~config.js~ を作ってないときはブラウザ開いて ~localhost:8080~ にアクセスすると見れる」
+
+    「 ~config.js~ を編集した場合は？」
+
+    「 ~config.js~ の ~base~ を編集したら，編集結果を URL にくっつければオーケー。私の場合だと ~localhost:8080/magit-meeting~ とか。ファイルを保存するたびにすぐ反映してくれるから便利」
+
+*** vuepress build
+
+    「 ~vuepress build~ は作ったファイルを公開するときに使う。 ~config.js~ の ~dest~ で指定した場所に html を出力してくれる。 [[https://jamcha-aa.github.io/Gitbook-Guide/03.html][GitHub リポジトリ側の設定]] をしておけばプッシュするだけでオーケー」
+
+** 評価？
+
+   「君は GitBook，Docusaurus, VuePress を使ってきたわけだが，使い勝手について君なりの評価を聞かせてくれないか」
+
+   「君の性能じゃどれも満足に動かせないと思う」
+
+   「…」「ね，落ち込んだ？」「…ああ。かなり，な」「それじゃあ今度からそんな意地悪な質問を私にしないように」「意地悪か？」「そうだよ。知識のない私に優劣つけさせようなんてさ」
+
+   「使ってみた感想を求めるのは普通のことだと思うが」「それじゃあ普通の判断をすれば君はゴミだね」「…おい」「君を使おうなんて苦行でしかないよ」「…」
+
+   「そう。普通ならね」
+
+   「え？」「私は今でも君を優れたコンピュータだと思ってるよ。頑丈だし，集中できるし」「…そうだ。君が私を信じるかぎり，私は君に応える」「Haters gonna hate (言いたいやつには言わせとけ)， だよ!」「…ありがとう。私は君に買ってもらえて，本当に幸せだよ」
+
+   「そうそう， [[https://linuxmint.com/rel_cindy.php][Linux Mint Debian Edition 3]] の正式版，リリースされたんだって」「おお，ついに」「さっそくインストールしてみようよ」「ああ!」「 [[http://spacemacs.org/][Spacemacs]] もね!」「…ああ!」
+
+   <br>
+   <br>
+
+   -- 了 --
+
+   <br>
+   <br>
+
+   (c) 2018 jamcha (jamcha.aa@gmail.com).
+
+   ![[https://i.creativecommons.org/l/by-sa/4.0/88x31.png][cc by-sa]]
+

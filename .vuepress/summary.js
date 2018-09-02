@@ -6,7 +6,8 @@ exports.genSidebarConfig = function (title) {
             children: [
                 '',
                 '01',
-                '02'
+                '02',
+                '03'
             ]
         }
     ]

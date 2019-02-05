@@ -2,7 +2,7 @@
 
 # プロローグ
 
-![vuepress-logo](https://raw.githubusercontent.com/vuejs/vuepress/master/docs/.vuepress/public/hero.png)
+![vuepress-logo](https://raw.githubusercontent.com/vuejs/vuepress/master/packages/docs/docs/.vuepress/public/hero.png)
 
 <center>(c) Evan You</center>
 

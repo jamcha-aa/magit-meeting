@@ -17,7 +17,7 @@ VuePress の設定方法だけ知りたい方は [「くだん」の正体](http
 
 この物語はフィクションであり，実在の人物・ソフトウェア・団体とは一切関係ありません。
 
-Copyright (c) 2018 jamcha (jamcha.aa@gmail.com).  
+Copyright (c) 2018-2019 jamcha (jamcha.aa@gmail.com).  
 
 This novel is licensed under the [Creative Commons Attribution Share Alike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/deed)
 
